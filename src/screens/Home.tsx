@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFlights } from "../api";
 import DirectionSwitcher from "../components/DirectionSwitcher";
 import FlightCard from "../components/FlightCard";
+import FlightCardSkeleton from "../components/FlightCardSkeleton";
 import SearchField from "../components/SearchField";
 import { Button, GridList, GridListItem } from "react-aria-components";
 import { ArrivalStatus, DepartureStatus, Flight } from "../lib/types";
@@ -74,7 +75,16 @@ const Home = () => {
       />
 
       {isLoading ? (
-        <div className="p-4 text-text-subtle">Loading...</div>
+        <div
+          className="space-y-2"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading flights"
+        >
+          {Array.from({ length: 5 }, (_, index) => (
+            <FlightCardSkeleton key={index} />
+          ))}
+        </div>
       ) : !flights?.length ? (
         <div className="p-4 text-text-subtle">No flights found</div>
       ) : (
